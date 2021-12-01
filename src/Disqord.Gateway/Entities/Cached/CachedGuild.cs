@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 using Qommon.Collections;
@@ -87,8 +88,12 @@ namespace Disqord.Gateway
 
         public bool IsUnavailable { get; private set; }
 
-        // TODO: track member count
-        public int MemberCount { get; private set; }
+        private int _memberCount;
+        public int MemberCount 
+        {
+            get => _memberCount;
+            private set => _memberCount = value;
+        }
 
         public IReadOnlyDictionary<Snowflake, IMember> Members
         {
@@ -227,6 +232,10 @@ namespace Disqord.Gateway
         {
             SetStickers(model.Stickers);
         }
+
+        public void UpdateMemberAdded() => Interlocked.Increment(ref _memberCount);
+
+        public void UpdateMemberRemoved() => Interlocked.Decrement(ref _memberCount);
 
         private void SetEmojis(EmojiJsonModel[] emojis)
         {

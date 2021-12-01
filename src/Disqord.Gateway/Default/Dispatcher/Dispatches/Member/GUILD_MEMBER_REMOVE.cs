@@ -18,6 +18,9 @@ namespace Disqord.Gateway.Default.Dispatcher
                 user = new TransientUser(Client, model.User);
             }
 
+            if (CacheProvider.TryGetGuilds(out var guildCache) && guildCache.TryGetValue(model.GuildId, out var guild))
+                guild.UpdateMemberRemoved();
+
             var e = new MemberLeftEventArgs(model.GuildId, user);
             return new(e);
         }
