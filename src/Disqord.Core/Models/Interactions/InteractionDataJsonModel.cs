@@ -1,4 +1,5 @@
 ﻿using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Models
 {
@@ -19,6 +20,9 @@ namespace Disqord.Models
         [JsonProperty("options")]
         public Optional<ApplicationCommandInteractionDataOptionJsonModel[]> Options;
 
+        [JsonProperty("guild_id")]
+        public Optional<Snowflake> GuildId;
+
         [JsonProperty("custom_id")]
         public Optional<string> CustomId;
 
@@ -30,5 +34,8 @@ namespace Disqord.Models
 
         [JsonProperty("target_id")]
         public Optional<Snowflake> TargetId;
+
+        [JsonProperty("components")]
+        public Optional<ComponentJsonModel[]> Components;
     }
 }

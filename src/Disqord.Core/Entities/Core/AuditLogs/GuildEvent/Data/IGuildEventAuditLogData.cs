@@ -1,4 +1,6 @@
-﻿namespace Disqord.AuditLogs
+﻿using Qommon;
+
+namespace Disqord.AuditLogs
 {
     public interface IGuildEventAuditLogData
     {
@@ -7,6 +9,8 @@
         Optional<string> Name { get; }
 
         Optional<string> Description { get; }
+
+        Optional<string> CoverImageHash { get; }
 
         Optional<GuildEventTargetType> TargetType { get; }
 

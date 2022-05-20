@@ -1,5 +1,6 @@
 ﻿using Disqord.Models;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -31,5 +32,14 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("sticker_ids")]
         public Optional<Snowflake[]> StickerIds;
+
+        protected override void OnValidate()
+        {
+            OptionalGuard.CheckValue(Components, components =>
+            {
+                for (var i = 0; i < components.Length; i++)
+                    components[i].Validate();
+            });
+        }
     }
 }

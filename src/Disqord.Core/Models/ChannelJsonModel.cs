@@ -1,5 +1,6 @@
 ﻿using System;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Models
 {
@@ -63,7 +64,7 @@ namespace Disqord.Models
         public Optional<string> RtcRegion;
 
         [JsonProperty("video_quality_mode")]
-        public Optional<int> VideoQualityMode;
+        public Optional<VideoQualityMode> VideoQualityMode;
 
         [JsonProperty("message_count")]
         public Optional<int> MessageCount;

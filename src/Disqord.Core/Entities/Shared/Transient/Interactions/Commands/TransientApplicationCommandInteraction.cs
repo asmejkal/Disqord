@@ -1,5 +1,6 @@
 ﻿using Disqord.Interaction;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord
 {
@@ -13,6 +14,9 @@ namespace Disqord
 
         /// <inheritdoc/>
         public ApplicationCommandType CommandType => Model.Data.Value.Type.Value;
+
+        /// <inheritdoc/>
+        public Snowflake? CommandGuildId => Model.Data.Value.GuildId.GetValueOrNullable();
 
         /// <inheritdoc/>
         public IApplicationCommandInteractionEntities Entities => _entities ??= new TransientApplicationCommandInteractionEntities(Client, GuildId,

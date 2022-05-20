@@ -1,16 +1,19 @@
-﻿using System;
+﻿using Qommon;
 
 namespace Disqord
 {
-    public class LocalButtonComponent : LocalButtonComponentBase, ILocalInteractiveComponent
+    public class LocalButtonComponent : LocalButtonComponentBase, ILocalCustomIdentifiableEntity
     {
         /// <summary>
         ///     Gets or sets the style of this button.
         /// </summary>
-        public LocalButtonComponentStyle Style { get; set; } = LocalButtonComponentStyle.Primary;
+        /// <remarks>
+        ///     This property is required.
+        /// </remarks>
+        public Optional<LocalButtonComponentStyle> Style { get; set; } = LocalButtonComponentStyle.Primary;
 
         /// <inheritdoc/>
-        public string CustomId { get; set; }
+        public Optional<string> CustomId { get; set; }
 
         public LocalButtonComponent()
         { }
@@ -24,13 +27,5 @@ namespace Disqord
 
         public override LocalButtonComponent Clone()
             => new(this);
-
-        public override void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(CustomId))
-                throw new InvalidOperationException("The button's custom ID must be set.");
-
-            base.Validate();
-        }
     }
 }

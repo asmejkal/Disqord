@@ -113,12 +113,12 @@ namespace Disqord.Extensions.Interactivity.Menus
                 {
                     Label = optionAttribute.Label,
                     Value = optionAttribute.Value ?? optionAttribute.Label,
-                    Description = optionAttribute.Description,
+                    Description = Optional.FromNullable(optionAttribute.Description),
                     Emoji = optionAttribute.Emoji is string emojiString
                         ? LocalEmoji.FromString(emojiString)
                         : optionAttribute.Emoji != null
                             ? LocalEmoji.Custom(Convert.ToUInt64(optionAttribute.Emoji))
-                            : null,
+                            : Optional<LocalEmoji>.Empty,
                     IsDefault = optionAttribute.IsDefault
                 });
             }
@@ -130,12 +130,17 @@ namespace Disqord.Extensions.Interactivity.Menus
             return _callback(data);
         }
 
-        protected internal override LocalNestedComponent ToLocalComponent()
-            => LocalComponent.Selection(CustomId)
-                .WithPlaceholder(_placeholder)
-                .WithMinimumSelectedOptions(_minimumSelectedOptions)
-                .WithMaximumSelectedOptions(_maximumSelectedOptions)
+        protected internal override LocalComponent ToLocalComponent()
+        {
+            var selection = LocalComponent.Selection(CustomId)
                 .WithOptions(_options)
                 .WithIsDisabled(_isDisabled);
+
+            selection.Placeholder = Optional.FromNullable(_placeholder);
+            selection.MinimumSelectedOptions = Optional.FromNullable(_minimumSelectedOptions);
+            selection.MaximumSelectedOptions = Optional.FromNullable(_maximumSelectedOptions);
+
+            return selection;
+        }
     }
 }

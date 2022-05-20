@@ -10,6 +10,7 @@ using Disqord.Rest.Pagination;
 using Disqord.Rest.Repetition;
 using Qommon;
 using Qommon.Collections;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Rest
 {
@@ -106,6 +107,7 @@ namespace Disqord.Rest
                                 {
                                     content.Topic = textProperties.Topic;
                                     content.Nsfw = textProperties.IsNsfw;
+                                    content.DefaultAutoArchiveDuration = Optional.Convert(textProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
                                     break;
                                 }
                                 case ModifyThreadChannelActionProperties threadProperties:
@@ -125,6 +127,7 @@ namespace Disqord.Rest
                             content.Bitrate = voiceProperties.Bitrate;
                             content.UserLimit = voiceProperties.MemberLimit;
                             content.RtcRegion = voiceProperties.Region;
+                            content.VideoQualityMode = voiceProperties.VideoQualityMode;
                             break;
                         }
                     }
@@ -347,11 +350,7 @@ namespace Disqord.Rest
                 {
                     Id = x
                 }).ToArray()),
-                Components = Optional.Convert(properties.Components, models => models.Select(x =>
-                {
-                    x.Validate();
-                    return x.ToModel();
-                }).ToArray()),
+                Components = Optional.Convert(properties.Components, models => models.Select(x => x.ToModel()).ToArray()),
                 StickerIds = Optional.Convert(properties.StickerIds, x => x.ToArray())
             };
 

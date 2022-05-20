@@ -1,4 +1,5 @@
 ﻿using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Models
 {
@@ -21,5 +22,14 @@ namespace Disqord.Models
 
         [JsonProperty("components")]
         public Optional<ComponentJsonModel[]> Components;
+
+        protected override void OnValidate()
+        {
+            OptionalGuard.CheckValue(Components, components =>
+            {
+                for (var i = 0; i < components.Length; i++)
+                    components[i].Validate();
+            });
+        }
     }
 }

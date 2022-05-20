@@ -1,5 +1,6 @@
 ﻿using Disqord.Models;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -34,6 +35,12 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("parent_id")]
         public Optional<Snowflake?> ParentId;
+
+        [JsonProperty("video_quality_mode")]
+        public Optional<VideoQualityMode> VideoQualityMode;
+
+        [JsonProperty("default_auto_archive_duration")]
+        public Optional<int> DefaultAutoArchiveDuration;
 
         [JsonProperty("rtc_region")]
         public Optional<string> RtcRegion;

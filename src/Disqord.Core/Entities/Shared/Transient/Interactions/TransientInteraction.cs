@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
+using Disqord.Interactions;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord.Interaction
 {
@@ -53,6 +55,7 @@ namespace Disqord.Interaction
                 },
                 InteractionType.MessageComponent => new TransientComponentInteraction(client, model),
                 InteractionType.ApplicationCommandAutoComplete => new TransientAutoCompleteInteraction(client, model),
+                InteractionType.ModalSubmit => new TransientModalSubmitInteraction(client, model),
                 _ => new TransientInteraction(client, model)
             };
     }

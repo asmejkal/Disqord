@@ -1,4 +1,5 @@
 ﻿using Disqord.Models;
+using Qommon;
 
 namespace Disqord.AuditLogs
 {
@@ -9,6 +10,8 @@ namespace Disqord.AuditLogs
         public Optional<string> Name { get; }
 
         public Optional<string> Description { get; }
+
+        public Optional<string> CoverImageHash { get; }
 
         public Optional<GuildEventTargetType> TargetType { get; }
 
@@ -26,6 +29,7 @@ namespace Disqord.AuditLogs
                 ChannelId = changes.ChannelId.NewValue;
                 Name = changes.Name.NewValue;
                 Description = changes.Description.NewValue;
+                CoverImageHash = changes.CoverImageHash.NewValue;
                 TargetType = changes.TargetType.NewValue;
                 Location = changes.Location.NewValue;
                 PrivacyLevel = changes.PrivacyLevel.NewValue;
@@ -36,6 +40,7 @@ namespace Disqord.AuditLogs
                 ChannelId = changes.ChannelId.OldValue;
                 Name = changes.Name.OldValue;
                 Description = changes.Description.OldValue;
+                CoverImageHash = changes.CoverImageHash.OldValue;
                 TargetType = changes.TargetType.OldValue;
                 Location = changes.Location.OldValue;
                 PrivacyLevel = changes.PrivacyLevel.OldValue;
