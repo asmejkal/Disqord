@@ -1,358 +1,365 @@
-﻿namespace Disqord.Rest
+﻿namespace Disqord.Rest;
+
+public enum RestApiErrorCode
 {
-    public enum RestApiErrorCode
-    {
-        Unknown = 0,
+    Unknown = 0,
 
-        UnknownAccount = 10001,
+    UnknownAccount = 10001,
 
-        UnknownApplication = 10002,
+    UnknownApplication = 10002,
 
-        UnknownChannel = 10003,
+    UnknownChannel = 10003,
 
-        UnknownGuild = 10004,
+    UnknownGuild = 10004,
 
-        UnknownIntegration = 10005,
+    UnknownIntegration = 10005,
 
-        UnknownInvite = 10006,
+    UnknownInvite = 10006,
 
-        UnknownMember = 10007,
+    UnknownMember = 10007,
 
-        UnknownMessage = 10008,
+    UnknownMessage = 10008,
 
-        UnknownOverwrite = 10009,
+    UnknownOverwrite = 10009,
 
-        UnknownProvider = 10010,
+    UnknownProvider = 10010,
 
-        UnknownRole = 10011,
+    UnknownRole = 10011,
 
-        UnknownToken = 10012,
+    UnknownToken = 10012,
 
-        UnknownUser = 10013,
+    UnknownUser = 10013,
 
-        UnknownEmoji = 10014,
+    UnknownEmoji = 10014,
 
-        UnknownWebhook = 10015,
+    UnknownWebhook = 10015,
 
-        UnknownWebhookService = 10016,
+    UnknownWebhookService = 10016,
 
-        UnknownSession = 10020,
+    UnknownSession = 10020,
 
-        UnknownBan = 10026,
+    UnknownBan = 10026,
 
-        UnknownSku = 10027,
+    UnknownSku = 10027,
 
-        UnknownStoreListing = 10028,
+    UnknownStoreListing = 10028,
 
-        UnknownEntitlement = 10029,
+    UnknownEntitlement = 10029,
 
-        UnknownBuild = 10030,
+    UnknownBuild = 10030,
 
-        UnknownLobby = 10031,
+    UnknownLobby = 10031,
 
-        UnknownBranch = 10032,
+    UnknownBranch = 10032,
 
-        UnknownStoreDirectoryLayout = 10033,
+    UnknownStoreDirectoryLayout = 10033,
 
-        UnknownRedistributable = 10036,
+    UnknownRedistributable = 10036,
 
-        UnknownGiftCode = 10038,
+    UnknownGiftCode = 10038,
 
-        UnknownStream = 10049,
+    UnknownStream = 10049,
 
-        UnknownBoostCooldown = 10050,
+    UnknownBoostCooldown = 10050,
 
-        UnknownGuildTemplate = 10057,
+    UnknownGuildTemplate = 10057,
 
-        UnknownDiscoverableCategory = 10059,
+    UnknownDiscoverableCategory = 10059,
 
-        UnknownSticker = 10060,
+    UnknownSticker = 10060,
 
-        UnknownInteraction = 10062,
+    UnknownInteraction = 10062,
 
-        UnknownApplicationCommand = 10063,
+    UnknownApplicationCommand = 10063,
 
-        UnknownVoiceState = 10065,
+    UnknownVoiceState = 10065,
 
-        UnknownApplicationCommandPermissions = 10066,
+    UnknownApplicationCommandPermissions = 10066,
 
-        UnknownStage = 10067,
+    UnknownStage = 10067,
 
-        UnknownMemberVerificationForm = 10068,
+    UnknownMemberVerificationForm = 10068,
 
-        UnknownWelcomeScreen = 10069,
+    UnknownWelcomeScreen = 10069,
 
-        UnknownGuildEvent = 10070,
+    UnknownGuildEvent = 10070,
 
-        UnknownGuildEventUser = 10071,
+    UnknownGuildEventUser = 10071,
 
-        UserOnlyEndpoint = 20001,
+    UnknownTag = 10087,
 
-        BotOnlyEndpoint = 20002,
+    UserOnlyEndpoint = 20001,
 
-        ExplicitContentCannotBeSentToRecipient = 20009,
+    BotOnlyEndpoint = 20002,
 
-        UnauthorizedToPerformActionOnApplication = 20012,
+    ExplicitContentCannotBeSentToRecipient = 20009,
 
-        SlowmodeRateLimit = 20016,
+    UnauthorizedToPerformActionOnApplication = 20012,
 
-        AccountOwnerOnlyAction = 20018,
+    SlowmodeRateLimit = 20016,
 
-        AnnouncementRateLimit = 20022,
+    AccountOwnerOnlyAction = 20018,
 
-        ChannelWriteRateLimit = 20028,
+    AnnouncementRateLimit = 20022,
 
-        GuildWriteRateLimit = 20029,
+    ChannelWriteRateLimit = 20028,
 
-        /// <summary>
-        ///     The stage topic, guild name, guild description, or channel names contain words that are not allowed.
-        /// </summary>
-        DisallowedStageWords = 20031,
+    GuildWriteRateLimit = 20029,
 
-        GuildBoostLevelTooLow = 20035,
+    /// <summary>
+    ///     The stage topic, guild name, guild description, or channel names contain words that are not allowed.
+    /// </summary>
+    DisallowedStageWords = 20031,
 
-        MaximumGuildAmountReached = 30001,
+    GuildBoostLevelTooLow = 20035,
 
-        /// <summary>
-        ///     The maximum of <c>1000</c> friends was reached.
-        /// </summary>
-        MaximumFriendAmountReached = 30002,
+    MaximumGuildAmountReached = 30001,
 
-        /// <summary>
-        ///     The maximum of <c>50</c> pins was reached.
-        /// </summary>
-        MaximumPinAmountReached = 30003,
+    /// <summary>
+    ///     The maximum of <c>1000</c> friends was reached.
+    /// </summary>
+    MaximumFriendAmountReached = 30002,
 
-        /// <summary>
-        ///     The maximum of <c>10</c> recipients was reached.
-        /// </summary>
-        MaximumRecipientsAmountReached = 30004,
+    /// <summary>
+    ///     The maximum of <c>50</c> pins was reached.
+    /// </summary>
+    MaximumPinAmountReached = 30003,
 
-        /// <summary>
-        ///     The maximum of <c>250</c> roles was reached.
-        /// </summary>
-        MaximumRoleAmountReached = 30005,
+    /// <summary>
+    ///     The maximum of <c>10</c> recipients was reached.
+    /// </summary>
+    MaximumRecipientsAmountReached = 30004,
 
-        /// <summary>
-        ///     The maximum of <c>10</c> webhooks was reached.
-        /// </summary>
-        MaximumWebhookAmountReached = 30007,
+    /// <summary>
+    ///     The maximum of <c>250</c> roles was reached.
+    /// </summary>
+    MaximumRoleAmountReached = 30005,
 
-        MaximumEmojisAmountReached = 30008,
+    /// <summary>
+    ///     The maximum of <c>10</c> webhooks was reached.
+    /// </summary>
+    MaximumWebhookAmountReached = 30007,
 
-        /// <summary>
-        ///     The maximum of <c>20</c> reactions was reached.
-        /// </summary>
-        MaximumReactionAmountReached = 30010,
+    MaximumEmojisAmountReached = 30008,
 
-        /// <summary>
-        ///     The maximum of <c>500</c> channels was reached.
-        /// </summary>
-        MaximumGuildChannelAmountReached = 30013,
+    /// <summary>
+    ///     The maximum of <c>20</c> reactions was reached.
+    /// </summary>
+    MaximumReactionAmountReached = 30010,
 
-        /// <summary>
-        ///     The maximum of <c>10</c> attachments was reached.
-        /// </summary>
-        MaximumAttachmentAmountReached = 30015,
+    /// <summary>
+    ///     The maximum of <c>500</c> channels was reached.
+    /// </summary>
+    MaximumGuildChannelAmountReached = 30013,
 
-        /// <summary>
-        ///     The maximum of <c>1000</c> invites was reached.
-        /// </summary>
-        MaximumInviteAmountReached = 30016,
+    /// <summary>
+    ///     The maximum of <c>10</c> attachments was reached.
+    /// </summary>
+    MaximumAttachmentAmountReached = 30015,
 
-        MaximumAnimatedEmojiAmountReached = 30018,
+    /// <summary>
+    ///     The maximum of <c>1000</c> invites was reached.
+    /// </summary>
+    MaximumInviteAmountReached = 30016,
 
-        MaximumMemberAmountReached = 30019,
+    MaximumAnimatedEmojiAmountReached = 30018,
 
-        /// <summary>
-        ///     The maximum of <c>5</c> categories was reached.
-        /// </summary>
-        MaximumDiscoverableCategoryAmountReached = 30030,
+    MaximumMemberAmountReached = 30019,
 
-        GuildAlreadyHasATemplate = 30031,
+    /// <summary>
+    ///     The maximum of <c>5</c> categories was reached.
+    /// </summary>
+    MaximumDiscoverableCategoryAmountReached = 30030,
 
-        MaximumThreadParticipantAmountReached = 30033,
+    GuildAlreadyHasATemplate = 30031,
 
-        MaximumNonMemberBanAmountReached = 30035,
+    MaximumThreadParticipantAmountReached = 30033,
 
-        BanFetchRateLimit = 30037,
+    MaximumNonMemberBanAmountReached = 30035,
 
-        /// <summary>
-        ///     The maximum of <c>100</c> uncompleted guild events was reached.
-        /// </summary>
-        MaximumUncompletedGuildEventsReached = 30038,
+    BanFetchRateLimit = 30037,
 
-        MaximumStickerAmountReached = 30039,
+    /// <summary>
+    ///     The maximum of <c>100</c> uncompleted guild events was reached.
+    /// </summary>
+    MaximumUncompletedGuildEventsReached = 30038,
 
-        MaximumPruneRequestAmountReached = 30040,
+    MaximumStickerAmountReached = 30039,
 
-        MaximumGuildWidgetSettingsUpdatesReached = 30042,
+    MaximumPruneRequestAmountReached = 30040,
 
-        /// <summary>
-        ///     The maximum number of edits to messages older than 1 hour was reached.
-        /// </summary>
-        MaximumEditsToOldMessagesReached = 30046,
+    MaximumGuildWidgetSettingsUpdatesReached = 30042,
 
-        Unauthorized = 40001,
+    /// <summary>
+    ///     The maximum number of edits to messages older than 1 hour was reached.
+    /// </summary>
+    MaximumEditsToOldMessagesReached = 30046,
 
-        VerifiedAccountRequiredToPerformAction = 40002,
+    MaximumPinnedThreadAmountReached = 30047,
 
-        DirectMessageChannelRateLimit = 40003,
+    MaximumTagAmountReached = 30048,
 
-        SendingMessagesTemporarilyDisabled = 40004,
+    Unauthorized = 40001,
 
-        RequestEntityTooLarge = 40005,
+    VerifiedAccountRequiredToPerformAction = 40002,
 
-        FeatureTemporarilyDisabled = 40006,
+    DirectMessageChannelRateLimit = 40003,
 
-        UserBanned = 40007,
+    SendingMessagesTemporarilyDisabled = 40004,
 
-        TargetUserNotConnectedToVoice = 40032,
+    RequestEntityTooLarge = 40005,
 
-        MessageAlreadyCrossposted = 40033,
+    FeatureTemporarilyDisabled = 40006,
 
-        ApplicationCommandAlreadyExists = 40041,
+    UserBanned = 40007,
 
-        InteractionAlreadyAcknowledged = 40060,
+    TargetUserNotConnectedToVoice = 40032,
 
-        MissingAccess = 50001,
+    MessageAlreadyCrossposted = 40033,
 
-        InvalidAccountType = 50002,
+    ApplicationCommandAlreadyExists = 40041,
 
-        InvalidDirectChannelAction = 50003,
+    InteractionAlreadyAcknowledged = 40060,
 
-        WidgetDisabled = 50004,
+    TagNameMustBeUnique = 40061,
 
-        CannotEditMessagesAuthoredByAnotherUser = 50005,
+    MissingAccess = 50001,
 
-        CannotSendAnEmptyMessage = 50006,
+    InvalidAccountType = 50002,
 
-        CannotSendMessagesToThisUser = 50007,
+    InvalidDirectChannelAction = 50003,
 
-        CannotSendMessagesInANonTextChannel = 50008,
+    WidgetDisabled = 50004,
 
-        ChannelVerificationLevelIsTooHigh = 50009,
+    CannotEditMessagesAuthoredByAnotherUser = 50005,
 
-        OAuth2ApplicationDoesNotHaveABot = 50010,
+    CannotSendAnEmptyMessage = 50006,
 
-        OAuth2ApplicationLimitReached = 50011,
+    CannotSendMessagesToThisUser = 50007,
 
-        InvalidOAuth2State = 50012,
+    CannotSendMessagesInANonTextChannel = 50008,
 
-        MissingPermissions = 50013,
+    ChannelVerificationLevelIsTooHigh = 50009,
 
-        InvalidAuthenticationToken = 50014,
+    OAuth2ApplicationDoesNotHaveABot = 50010,
 
-        NoteTooLong = 50015,
+    OAuth2ApplicationLimitReached = 50011,
 
-        /// <summary>
-        ///     An invalid amount of messages was provided to the bulk message deletion endpoint which accepts from <c>2</c> to <c>100</c> messages.
-        /// </summary>
-        InvalidBulkMessageDeletionAmount = 50016,
+    InvalidOAuth2State = 50012,
 
-        AMessageCanOnlyBePinnedToTheChannelItWasSent = 50019,
+    MissingPermissions = 50013,
 
-        InviteCodeIsEitherInvalidOrTaken = 50020,
+    InvalidAuthenticationToken = 50014,
 
-        CannotExecuteActionOnASystemMessage = 50021,
+    NoteTooLong = 50015,
 
-        CannotExecuteActionOnThisChannelType = 50024,
+    /// <summary>
+    ///     An invalid amount of messages was provided to the bulk message deletion endpoint which accepts from <c>2</c> to <c>100</c> messages.
+    /// </summary>
+    InvalidBulkMessageDeletionAmount = 50016,
 
-        InvalidOAuth2AccessToken = 50025,
+    AMessageCanOnlyBePinnedToTheChannelItWasSent = 50019,
 
-        MissingOAuth2Scope = 50026,
+    InviteCodeIsEitherInvalidOrTaken = 50020,
 
-        InvalidWebhookToken = 50027,
+    CannotExecuteActionOnASystemMessage = 50021,
 
-        InvalidRole = 50028,
+    CannotExecuteActionOnThisChannelType = 50024,
 
-        InvalidRecipient = 50033,
+    InvalidOAuth2AccessToken = 50025,
 
-        AMessageProvidedWasTooOldToBulkDelete = 50034,
+    MissingOAuth2Scope = 50026,
 
-        InvalidFormBody = 50035,
+    InvalidWebhookToken = 50027,
 
-        AnInviteWasAcceptedToAGuildTheApplicationsBotIsNotIn = 50036,
+    InvalidRole = 50028,
 
-        InvalidApiVersion = 50041,
+    InvalidRecipient = 50033,
 
-        MaximumFileSizeExceeded = 50045,
+    AMessageProvidedWasTooOldToBulkDelete = 50034,
 
-        InvalidFileType = 50046,
+    InvalidFormBody = 50035,
 
-        CannotSelfRedeemGift = 50054,
+    AnInviteWasAcceptedToAGuildTheApplicationsBotIsNotIn = 50036,
 
-        InvalidGuild = 50055,
+    InvalidApiVersion = 50041,
 
-        InvalidMessageType = 50068,
+    MaximumFileSizeExceeded = 50045,
 
-        PaymentSourceRequiredToRedeemGift = 50070,
+    InvalidFileType = 50046,
 
-        CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
+    CannotSelfRedeemGift = 50054,
 
-        InvalidStickerSent = 50081,
+    InvalidGuild = 50055,
 
-        ThreadArchived = 50083,
+    InvalidMessageType = 50068,
 
-        InvalidThreadNotifications = 50084,
+    PaymentSourceRequiredToRedeemGift = 50070,
 
-        /// <summary>
-        ///     <c>before</c> value is earlier than the thread creation date.
-        /// </summary>
-        ValueBeforeThreadCreation = 50085,
+    CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
 
-        CommunityChannelsMustBeTextChannels = 50086,
+    InvalidStickerSent = 50081,
 
-        GuildNotAvailableInCurrentLocation = 50095,
+    ThreadArchived = 50083,
 
-        GuildMonetizationRequiredForAction = 50097,
+    InvalidThreadNotifications = 50084,
 
-        GuildBoostsRequiredForAction = 50101,
+    /// <summary>
+    ///     <c>before</c> value is earlier than the thread creation date.
+    /// </summary>
+    ValueBeforeThreadCreation = 50085,
 
-        RequestBodyContainsInvalidJson = 50109,
+    CommunityChannelsMustBeTextChannels = 50086,
 
-        TwoFactorRequired = 60003,
+    GuildNotAvailableInCurrentLocation = 50095,
 
-        NoUsersWithDiscordTagExist = 80004,
+    GuildMonetizationRequiredForAction = 50097,
 
-        ReactionBlocked = 90001,
+    GuildBoostsRequiredForAction = 50101,
 
-        ResourceOverloaded = 130000,
+    RequestBodyContainsInvalidJson = 50109,
 
-        StageAlreadyOpen = 150006,
+    TwoFactorRequired = 60003,
 
-        CannotReplyWithoutReadHistoryPermissions = 160002,
+    NoUsersWithDiscordTagExist = 80004,
 
-        ThreadAlreadyCreated = 160004,
+    ReactionBlocked = 90001,
 
-        ThreadLocked = 160005,
+    ResourceOverloaded = 130000,
 
-        MaximumActiveThreadAmountReached = 160006,
+    StageAlreadyOpen = 150006,
 
-        MaximumActiveAnnouncementThreadAmountReached = 160007,
+    CannotReplyWithoutReadHistoryPermissions = 160002,
 
-        InvalidLottieFile = 170001,
+    ThreadAlreadyCreated = 160004,
 
-        LottieCannotContainRasterizedImages = 170002,
+    ThreadLocked = 160005,
 
-        MaximumStickerFrameRateExceeded = 170003,
+    MaximumActiveThreadAmountReached = 160006,
 
-        /// <summary>
-        ///     The maximum of <c>1000</c> frames was reached.
-        /// </summary>
-        MaximumStickerFrameCountExceeded = 170004,
+    MaximumActiveAnnouncementThreadAmountReached = 160007,
 
-        MaximumLottieDimensionsExceeded = 170005,
+    InvalidLottieFile = 170001,
 
-        InvalidStickerFrameRate = 170006,
+    LottieCannotContainRasterizedImages = 170002,
 
-        /// <summary>
-        ///     The maximum duration of <c>5</c> seconds was reached.
-        /// </summary>
-        MaximumLottieDurationExceeded = 170007,
+    MaximumStickerFrameRateExceeded = 170003,
 
-        CannotUpdateFinishedEvent = 180000,
+    /// <summary>
+    ///     The maximum of <c>1000</c> frames was reached.
+    /// </summary>
+    MaximumStickerFrameCountExceeded = 170004,
 
-        FailedToCreateEventStageChannel = 180002
-    }
+    MaximumLottieDimensionsExceeded = 170005,
+
+    InvalidStickerFrameRate = 170006,
+
+    /// <summary>
+    ///     The maximum duration of <c>5</c> seconds was reached.
+    /// </summary>
+    MaximumLottieDurationExceeded = 170007,
+
+    CannotUpdateFinishedEvent = 180000,
+
+    FailedToCreateEventStageChannel = 180002
 }

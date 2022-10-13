@@ -2,26 +2,34 @@
 using System.ComponentModel;
 using Qommon;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+public abstract class CachedEntity : ICachedEntity, ICloneable
 {
-    public abstract class CachedEntity : ICachedEntity, ICloneable
+    /// <inheritdoc/>
+    public IGatewayClient Client { get; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="CachedEntity"/>.
+    /// </summary>
+    /// <param name="client"> The client that created this entity. </param>
+    protected CachedEntity(IGatewayClient client)
     {
-        /// <inheritdoc/>
-        public IGatewayClient Client { get; }
+        Guard.IsNotNull(client);
 
-        protected CachedEntity(IGatewayClient client)
-        {
-            Guard.IsNotNull(client);
+        Client = client;
+    }
 
-            Client = client;
-        }
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public virtual object Clone()
+    {
+        return MemberwiseClone();
+    }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual object Clone()
-            => MemberwiseClone();
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => this.GetString();
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return this.GetString();
     }
 }

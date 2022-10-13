@@ -1,73 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Qommon.Collections;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections.ReadOnly;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+public class CachedMember : CachedShareeUser, IMember
 {
-    public class CachedMember : CachedUser, IMember
+    /// <inheritdoc/>
+    public Snowflake GuildId { get; }
+
+    /// <inheritdoc/>
+    public string? Nick { get; private set; }
+
+    /// <inheritdoc/>
+    public IReadOnlyList<Snowflake> RoleIds { get; private set; } = null!;
+
+    /// <inheritdoc/>
+    public Optional<DateTimeOffset> JoinedAt { get; private set; }
+
+    /// <inheritdoc/>
+    public bool IsMuted { get; private set; }
+
+    /// <inheritdoc/>
+    public bool IsDeafened { get; private set; }
+
+    /// <inheritdoc/>
+    public DateTimeOffset? BoostedAt { get; private set; }
+
+    /// <inheritdoc/>
+    public bool IsPending { get; private set; }
+
+    /// <inheritdoc/>
+    public string? GuildAvatarHash { get; private set; }
+
+    /// <inheritdoc/>
+    public DateTimeOffset? TimedOutUntil { get; private set; }
+
+    public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
+        : base(sharedUser)
     {
-        public Snowflake GuildId { get; }
+        GuildId = guildId;
 
-        public string Nick { get; private set; }
+        Update(model);
+    }
 
-        public IReadOnlyList<Snowflake> RoleIds => _roleIds.ReadOnly();
-        private Snowflake[] _roleIds;
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Update(MemberJsonModel model)
+    {
+        if (model.User.HasValue)
+            Update(model.User.Value);
 
-        public Optional<DateTimeOffset> JoinedAt { get; private set; }
+        Nick = model.Nick.GetValueOrDefault();
+        RoleIds = model.Roles;
 
-        public bool IsMuted { get; private set; }
+        if (model.JoinedAt.HasValue)
+            JoinedAt = model.JoinedAt.Value;
 
-        public bool IsDeafened { get; private set; }
+        if (model.Mute.HasValue)
+            IsMuted = model.Mute.Value;
 
-        public DateTimeOffset? BoostedAt { get; private set; }
+        if (model.Deaf.HasValue)
+            IsDeafened = model.Deaf.Value;
 
-        public bool IsPending { get; private set; }
+        if (model.PremiumSince.HasValue)
+            BoostedAt = model.PremiumSince.Value;
 
-        public string GuildAvatarHash { get; private set; }
+        IsPending = model.Pending.GetValueOrDefault();
 
-        public DateTimeOffset? TimedOutUntil { get; private set; }
+        if (model.Avatar.HasValue)
+            GuildAvatarHash = model.Avatar.Value;
 
-        public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
-            : base(sharedUser)
-        {
-            GuildId = guildId;
-
-            Update(model);
-        }
-
-        /// <inheritdoc/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void Update(MemberJsonModel model)
-        {
-            if (model.User.HasValue)
-                Update(model.User.Value);
-
-            Nick = model.Nick;
-            _roleIds = model.Roles;
-
-            if (model.JoinedAt.HasValue)
-                JoinedAt = model.JoinedAt.Value;
-
-            if (model.Mute.HasValue)
-                IsMuted = model.Mute.Value;
-
-            if (model.Deaf.HasValue)
-                IsDeafened = model.Deaf.Value;
-
-            if (model.PremiumSince.HasValue)
-                BoostedAt = model.PremiumSince.Value;
-
-            IsPending = model.Pending.GetValueOrDefault();
-
-            if (model.Avatar.HasValue)
-                GuildAvatarHash = model.Avatar.Value;
-
-            if (model.CommunicationDisabledUntil.HasValue)
-                TimedOutUntil = model.CommunicationDisabledUntil.Value;
-        }
+        if (model.CommunicationDisabledUntil.HasValue)
+            TimedOutUntil = model.CommunicationDisabledUntil.Value;
     }
 }

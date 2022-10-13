@@ -1,35 +1,47 @@
-﻿using Disqord.Serialization.Json;
+﻿using System.Collections.Generic;
+using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class ApplicationCommandJsonModel : JsonModel
 {
-    public class ApplicationCommandJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("type")]
-        public Optional<ApplicationCommandType> Type;
+    [JsonProperty("type")]
+    public Optional<ApplicationCommandType> Type;
 
-        [JsonProperty("application_id")]
-        public Snowflake ApplicationId;
+    [JsonProperty("application_id")]
+    public Snowflake ApplicationId;
 
-        [JsonProperty("guild_id")]
-        public Optional<Snowflake> GuildId;
+    [JsonProperty("guild_id")]
+    public Optional<Snowflake> GuildId;
 
-        [JsonProperty("name")]
-        public string Name;
+    [JsonProperty("name")]
+    public string Name = null!;
 
-        [JsonProperty("description")]
-        public string Description;
+    [JsonProperty("name_localizations")]
+    public Optional<Dictionary<string, string>?> NameLocalizations;
 
-        [JsonProperty("options")]
-        public Optional<ApplicationCommandOptionJsonModel[]> Options;
+    [JsonProperty("description")]
+    public string Description = null!;
 
-        [JsonProperty("default_permission")]
-        public Optional<bool> DefaultPermission;
+    [JsonProperty("description_localizations")]
+    public Optional<Dictionary<string, string>?> DescriptionLocalizations;
 
-        [JsonProperty("version")]
-        public Snowflake Version;
-    }
+    [JsonProperty("options")]
+    public Optional<ApplicationCommandOptionJsonModel[]> Options;
+
+    [JsonProperty("default_member_permissions")]
+    public Permissions? DefaultMemberPermissions;
+
+    [JsonProperty("dm_permission")]
+    public Optional<bool> DmPermission;
+
+    [JsonProperty("default_permission")]
+    public Optional<bool?> DefaultPermission;
+
+    [JsonProperty("version")]
+    public Snowflake Version;
 }

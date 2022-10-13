@@ -1,25 +1,30 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class AuditLogJsonModel : JsonModel
 {
-    public class AuditLogJsonModel : JsonModel
-    {
-        [JsonProperty("audit_log_entries")]
-        public AuditLogEntryJsonModel[] AuditLogEntries;
+    [JsonProperty("application_commands")]
+    public ApplicationCommandJsonModel[] ApplicationCommands = null!;
 
-        [JsonProperty("guild_scheduled_events")]
-        public GuildScheduledEventJsonModel[] GuildScheduledEvents;
+    [JsonProperty("audit_log_entries")]
+    public AuditLogEntryJsonModel[] AuditLogEntries = null!;
 
-        [JsonProperty("integrations")]
-        public IntegrationJsonModel[] Integrations;
+    [JsonProperty("auto_moderation_rules")]
+    public AutoModerationRuleJsonModel[] AutoModerationRules = null!;
 
-        [JsonProperty("threads")]
-        public ChannelJsonModel[] Threads;
+    [JsonProperty("guild_scheduled_events")]
+    public GuildScheduledEventJsonModel[] GuildScheduledEvents = null!;
 
-        [JsonProperty("users")]
-        public UserJsonModel[] Users;
+    [JsonProperty("integrations")]
+    public IntegrationJsonModel[] Integrations = null!;
 
-        [JsonProperty("webhooks")]
-        public WebhookJsonModel[] Webhooks;
-    }
+    [JsonProperty("threads")]
+    public ChannelJsonModel[] Threads = null!;
+
+    [JsonProperty("users")]
+    public UserJsonModel[] Users = null!;
+
+    [JsonProperty("webhooks")]
+    public WebhookJsonModel[] Webhooks = null!;
 }

@@ -1,31 +1,24 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Disqord.Rest;
+using Qommon;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+public abstract class DiscordResponseCommandResult : DiscordCommandResult<IDiscordCommandContext, IUserMessage>, IDisposable
 {
-    public class DiscordResponseCommandResult : DiscordCommandResult, IDisposable
+    public LocalMessageBase Message { get; protected set; }
+
+    protected DiscordResponseCommandResult(IDiscordCommandContext context, LocalMessageBase message)
+        : base(context)
     {
-        public LocalMessage Message { get; protected set; }
+        Message = message;
+    }
 
-        public DiscordResponseCommandResult(DiscordCommandContext context, LocalMessage message)
-            : base(context)
+    public void Dispose()
+    {
+        var attachments = Message.Attachments.GetValueOrDefault();
+        if (attachments != null)
         {
-            Message = message;
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new virtual TaskAwaiter<IUserMessage> GetAwaiter()
-            => ExecuteAsync().GetAwaiter();
-
-        public override Task<IUserMessage> ExecuteAsync()
-            => Context.Bot.SendMessageAsync(Context.ChannelId, Message);
-
-        public void Dispose()
-        {
-            foreach (var attachment in Message._attachments)
+            foreach (var attachment in attachments)
             {
                 attachment?.Dispose();
             }

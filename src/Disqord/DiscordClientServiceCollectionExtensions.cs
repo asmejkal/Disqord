@@ -1,34 +1,38 @@
-using System;
 using System.ComponentModel;
+using Disqord.Api;
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
+using Disqord.Gateway.Api;
 using Disqord.Rest;
 using Disqord.Webhook;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Disqord
+namespace Disqord;
+
+[EditorBrowsable(EditorBrowsableState.Advanced)]
+public static class DiscordClientServiceCollectionExtensions
 {
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public static class DiscordClientServiceCollectionExtensions
+    public static IServiceCollection AddDiscordClient(this IServiceCollection services)
     {
-        public static IServiceCollection AddDiscordClient(this IServiceCollection services, Action<DiscordClientConfiguration> configure = null)
+        if (services.TryAddSingleton<DiscordClient>())
         {
-            if (services.TryAddSingleton<DiscordClient>())
-            {
-                services.TryAddSingleton<DiscordClientBase>(services => services.GetRequiredService<DiscordClient>());
-                services.AddOptions<DiscordClientConfiguration>();
-
-                if (configure != null)
-                    services.Configure(configure);
-            }
-
-            services.AddInteractivityExtension();
-            services.AddGatewayClient();
-            services.AddRestClient();
-            services.AddWebhookClientFactory();
-
-            return services;
+            services.TryAddSingleton<DiscordClientBase>(services => services.GetRequiredService<DiscordClient>());
+            services.AddShardCoordinator<LocalDiscordShardCoordinator>();
         }
+
+        services.AddInteractivityExtension();
+        services.AddGatewayClient();
+        services.AddRestClient();
+        services.AddWebhookClientFactory();
+
+        return services;
+    }
+
+    public static IServiceCollection AddShardCoordinator<TShardCoordinator>(this IServiceCollection services)
+        where TShardCoordinator : class, IShardCoordinator
+    {
+        services.TryAddSingleton<IShardCoordinator, TShardCoordinator>();
+        return services;
     }
 }

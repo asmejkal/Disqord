@@ -1,24 +1,32 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+/// <summary>
+///     Specifies that the <see cref="IUser"/> parameter must be a bot.
+/// </summary>
+public class RequireBotAttribute : DiscordParameterCheckAttribute
 {
     /// <summary>
-    ///     Specifies that the <see cref="IUser"/> parameter must be a bot.
+    ///     Instantiates a new <see cref="RequireBotAttribute"/>.
     /// </summary>
-    public class RequireBotAttribute : DiscordParameterCheckAttribute
+    public RequireBotAttribute()
+    { }
+
+    /// <inheritdoc/>
+    public override bool CanCheck(IParameter parameter, object? value)
     {
-        public override bool CheckType(Type type)
-            => typeof(IUser).IsAssignableFrom(type);
+        return value is IUser;
+    }
 
-        public override ValueTask<CheckResult> CheckAsync(object argument, DiscordCommandContext context)
-        {
-            var user = argument as IUser;
-            if (user.IsBot)
-                return Success();
+    /// <inheritdoc/>
+    public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context, IParameter parameter, object? argument)
+    {
+        var user = (argument as IUser)!;
+        if (user.IsBot)
+            return Results.Success;
 
-            return Failure("The provided argument must be a bot user.");
-        }
+        return Results.Failure("The provided user argument must be a bot user.");
     }
 }

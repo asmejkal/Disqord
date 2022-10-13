@@ -40,14 +40,14 @@ namespace Disqord.Test
                         x.AddSerilog(logger, true);
 
                         x.Services.Remove(x.Services.First(x => x.ServiceType == typeof(ILogger<>)));
-                        x.Services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+                        x.Services.AddSingleton(typeof(ILogger<>), typeof(TestLogger<>));
                     })
                     .ConfigureDiscordBot((context, bot) =>
                     {
                         bot.Token = context.Configuration["TOKEN"];
-                        bot.UseMentionPrefix = true;
-                        bot.Prefixes = new[] { "?", "!" };
-                        bot.Intents |= GatewayIntent.DirectMessages | GatewayIntent.DirectReactions;
+                        bot.UseMentionPrefix = false;
+                        bot.Prefixes = new[] { "??" };
+                        bot.Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
                     })
                     .UseDefaultServiceProvider(x =>
                     {

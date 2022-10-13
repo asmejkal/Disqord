@@ -1,43 +1,41 @@
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a local interaction message response.
+/// </summary>
+public class LocalInteractionMessageResponse : LocalInteractionFollowup, ILocalInteractionResponse, ILocalConstruct<LocalInteractionMessageResponse>
 {
-    public class LocalInteractionMessageResponse : LocalMessageBase, ILocalInteractionResponse
+    public InteractionResponseType Type { get; set; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionMessageResponse"/>.
+    /// </summary>
+    public LocalInteractionMessageResponse()
+    { }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionMessageResponse"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
+    protected LocalInteractionMessageResponse(LocalInteractionMessageResponse other)
+        : base(other)
     {
-        public InteractionResponseType Type { get; set; }
+        Type = other.Type;
+        Flags = other.Flags;
+    }
 
-        public bool IsEphemeral
-        {
-            get => Flags.HasFlag(MessageFlag.Ephemeral);
-            set
-            {
-                if (value)
-                    Flags |= MessageFlag.Ephemeral;
-                else
-                    Flags &= ~MessageFlag.Ephemeral;
-            }
-        }
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionMessageResponse"/>.
+    /// </summary>
+    /// <param name="type"> The response type. </param>
+    public LocalInteractionMessageResponse(InteractionResponseType type)
+    {
+        Type = type;
+    }
 
-        public LocalInteractionMessageResponse()
-        { }
-
-        public LocalInteractionMessageResponse(InteractionResponseType type)
-        {
-            Type = type;
-        }
-
-        private LocalInteractionMessageResponse(LocalInteractionMessageResponse other)
-            : base(other)
-        {
-            Type = other.Type;
-            Flags = other.Flags;
-        }
-
-        public override LocalInteractionMessageResponse Clone()
-            => new(this);
-
-        public override void Validate()
-        {
-            if (Type == InteractionResponseType.ChannelMessage)
-                base.Validate();
-        }
+    /// <inheritdoc/>
+    public override LocalInteractionMessageResponse Clone()
+    {
+        return new(this);
     }
 }

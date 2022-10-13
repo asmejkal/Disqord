@@ -1,13 +1,16 @@
-﻿using Disqord.Bot;
+﻿using Disqord.Bot.Commands.Text;
 using Qmmands;
+using Qmmands.Text;
 
 namespace Disqord.Test.Modules
 {
-    [Group("guild")]
-    public class GuildModule : DiscordGuildModuleBase
+    [TextGroup("guild")]
+    public class GuildModule : DiscordTextGuildModuleBase
     {
-        [Command("test")]
-        public DiscordCommandResult Test()
-            => Reply("guild only test");
+        [TextCommand("test")]
+        public IResult Test()
+        {
+            return Reply("guild only test");
+        }
     }
 }

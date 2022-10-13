@@ -1,27 +1,30 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+public class DiscordTemporaryResponseCommandResult : DiscordCommandResult<IDiscordCommandContext>
 {
-    public class DiscordTemporaryResponseCommandResult : DiscordCommandResult
+    public DiscordResponseCommandResult Result { get; protected set; }
+
+    public TimeSpan Delay { get; protected set; }
+
+    public DiscordTemporaryResponseCommandResult(DiscordResponseCommandResult result, TimeSpan delay)
+        : base(result.Context)
     {
-        public DiscordResponseCommandResult Result { get; protected set; }
+        Result = result;
+        Delay = delay;
+    }
 
-        public TimeSpan Delay { get; protected set; }
-
-        public DiscordTemporaryResponseCommandResult(DiscordResponseCommandResult result, TimeSpan delay)
-            : base(result.Context)
+    public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
+    {
+        var message = await Result.ExecuteWithResultAsync(cancellationToken).ConfigureAwait(false);
+        _ = Task.Delay(Delay, cancellationToken).ContinueWith(static (_, state) =>
         {
-            Result = result;
-            Delay = delay;
-        }
-
-        public override async Task ExecuteAsync()
-        {
-            var message = await Result.ExecuteAsync().ConfigureAwait(false);
-            await Task.Delay(Delay).ConfigureAwait(false);
-            await message.DeleteAsync().ConfigureAwait(false);
-        }
+            var (message, cancellationToken) = (ValueTuple<IMessage, CancellationToken>) state!;
+            return message.DeleteAsync(cancellationToken: cancellationToken);
+        }, (message as IMessage, cancellationToken), TaskContinuationOptions.OnlyOnRanToCompletion);
     }
 }

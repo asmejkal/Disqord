@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using Disqord.Models;
+﻿using Disqord.Models;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a guild event's metadata.
+/// </summary>
+public interface IGuildEventMetadata : IEntity, IJsonUpdatable<GuildScheduledEventEntityMetadataJsonModel>
 {
-    public interface IGuildEventMetadata : IEntity, IJsonUpdatable<GuildScheduledEventEntityMetadataJsonModel>
-    {
-        /// <summary>
-        ///     Gets the location of the event.
-        /// </summary>
-        string Location { get; }
-    }
+    /// <summary>
+    ///     Gets the location of the event.
+    /// </summary>
+    string? Location { get; }
 }

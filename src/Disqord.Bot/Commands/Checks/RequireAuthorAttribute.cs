@@ -1,26 +1,33 @@
 using System.Threading.Tasks;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+/// <summary>
+///     Specifies that the module or command can only be executed by given author.
+/// </summary>
+public class RequireAuthorAttribute : DiscordCheckAttribute
 {
     /// <summary>
-    ///     Specifies that the module or command can only be executed by given author.
+    ///     Gets the required ID of the author.
     /// </summary>
-    public class RequireAuthorAttribute : DiscordCheckAttribute
+    public Snowflake Id { get; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireAuthorAttribute"/>.
+    /// </summary>
+    /// <param name="id"> The required ID of the author. </param>
+    public RequireAuthorAttribute(ulong id)
     {
-        public Snowflake Id { get; }
+        Id = id;
+    }
 
-        public RequireAuthorAttribute(ulong id)
-        {
-            Id = id;
-        }
+    /// <inheritdoc/>
+    public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
+    {
+        if (context.Author.Id == Id)
+            return Results.Success;
 
-        public override ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
-        {
-            if (context.Author.Id == Id)
-                return Success();
-
-            return Failure($"This can only be executed by the user with the ID {Id}.");
-        }
+        return Results.Failure($"This can only be executed by the user with the ID {Id}.");
     }
 }

@@ -1,76 +1,71 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static class LocalInteractionResponseExtensions
 {
-    public static class LocalInteractionResponseExtensions
+    public static TResponse AddChoice<TResponse>(this TResponse response, KeyValuePair<string, object> choice)
+        where TResponse : LocalInteractionAutoCompleteResponse
     {
-        public static TResponse WithIsEphemeral<TResponse>(this TResponse response, bool isEphemeral = true)
-            where TResponse : LocalInteractionMessageResponse
-        {
-            response.IsEphemeral = isEphemeral;
-            return response;
-        }
+        if (response.Choices.Add(choice, out var list))
+            response.Choices = new(list);
 
-        public static TResponse AddChoice<TResponse>(this TResponse @this, LocalSlashCommandOptionChoice choice)
-            where TResponse : LocalInteractionAutoCompleteResponse
-        {
-            Guard.IsNotNull(choice);
+        return response;
+    }
 
-            if (!@this.Choices.Add(choice, out var list))
-                @this.Choices = new(list);
+    public static TResponse WithChoices<TResponse>(this TResponse response, IEnumerable<KeyValuePair<string, object>> choices)
+        where TResponse : LocalInteractionAutoCompleteResponse
+    {
+        Guard.IsNotNull(choices);
 
-            return @this;
-        }
+        if (response.Choices.With(choices, out var list))
+            response.Choices = new(list);
 
-        public static TResponse WithChoices<TResponse>(this TResponse @this, IEnumerable<LocalSlashCommandOptionChoice> choices)
-            where TResponse : LocalInteractionAutoCompleteResponse
-        {
-            Guard.IsNotNull(choices);
+        return response;
+    }
 
-            if (!@this.Choices.With(choices, out var list))
-                @this.Choices = new(list);
+    public static TResponse WithChoices<TResponse>(this TResponse response, params KeyValuePair<string, object>[] choices)
+        where TResponse : LocalInteractionAutoCompleteResponse
+    {
+        return response.WithChoices(choices as IEnumerable<KeyValuePair<string, object>>);
+    }
 
-            return @this;
-        }
+    public static TResponse WithTitle<TResponse>(this TResponse response, string title)
+        where TResponse : LocalInteractionModalResponse
+    {
+        Guard.IsNotNull(title);
+        response.Title = title;
+        return response;
+    }
 
-        public static TResponse WithChoices<TResponse>(this TResponse @this, params LocalSlashCommandOptionChoice[] choices)
-            where TResponse : LocalInteractionAutoCompleteResponse
-            => @this.WithChoices(choices as IEnumerable<LocalSlashCommandOptionChoice>);
+    public static TResponse AddComponent<TResponse>(this TResponse response, LocalComponent component)
+        where TResponse : LocalInteractionModalResponse
+    {
+        Guard.IsNotNull(component);
 
-        public static TResponse WithTitle<TResponse>(this TResponse @this, string title)
-            where TResponse : LocalInteractionModalResponse
-        {
-            Guard.IsNotNull(title);
-            @this.Title = title;
-            return @this;
-        }
+        if (response.Components.Add(component, out var list))
+            response.Components = new(list);
 
-        public static TResponse AddComponent<TResponse>(this TResponse @this, LocalComponent component)
-            where TResponse : LocalInteractionModalResponse
-        {
-            Guard.IsNotNull(component);
+        return response;
+    }
 
-            if (!@this.Components.Add(component, out var list))
-                @this.Components = new(list);
+    public static TResponse WithComponents<TResponse>(this TResponse response, IEnumerable<LocalComponent> components)
+        where TResponse : LocalInteractionModalResponse
+    {
+        Guard.IsNotNull(components);
 
-            return @this;
-        }
+        if (response.Components.With(components, out var list))
+            response.Components = new(list);
 
-        public static TResponse WithComponents<TResponse>(this TResponse @this, IEnumerable<LocalComponent> components)
-            where TResponse : LocalInteractionModalResponse
-        {
-            Guard.IsNotNull(components);
+        return response;
+    }
 
-            if (!@this.Components.With(components, out var list))
-                @this.Components = new(list);
-
-            return @this;
-        }
-
-        public static TResponse WithComponents<TResponse>(this TResponse @this, params LocalComponent[] components)
-            where TResponse : LocalInteractionModalResponse
-            => @this.WithComponents(components as IEnumerable<LocalComponent>);
+    public static TResponse WithComponents<TResponse>(this TResponse response, params LocalComponent[] components)
+        where TResponse : LocalInteractionModalResponse
+    {
+        return response.WithComponents(components as IEnumerable<LocalComponent>);
     }
 }

@@ -1,44 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Api;
 using Disqord.Gateway.Api;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+public partial interface IGatewayClient : IClient
 {
-    public partial interface IGatewayClient : IClient
-    {
-        IGatewayCacheProvider CacheProvider { get; }
+    /// <summary>
+    ///     Gets the low-level version of this client.
+    /// </summary>
+    new IGatewayApiClient ApiClient { get; }
 
-        IGatewayChunker Chunker { get; }
+    IGatewayCacheProvider CacheProvider { get; }
 
-        IGatewayDispatcher Dispatcher { get; }
+    IGatewayChunker Chunker { get; }
 
-        /// <summary>
-        ///     Gets the shards managed by this <see cref="IGatewayApiClient"/>.
-        /// </summary>
-        IReadOnlyDictionary<ShardId, IGatewayApiClient> Shards { get; }
+    IGatewayDispatcher Dispatcher { get; }
 
-        /// <summary>
-        ///     Gets the low-level version of this client.
-        ///     If this client manages multiple shards this will return the shard for <see cref="ShardId.Default"/>.
-        /// </summary>
-        /// <remarks>
-        ///     Do not use this unless you are well aware of how it works.
-        /// </remarks>
-        new IGatewayApiClient ApiClient => Shards.GetValueOrDefault(ShardId.Default);
+    IApiClient IClient.ApiClient => ApiClient;
 
-        IApiClient IClient.ApiClient => ApiClient;
+    /// <inheritdoc cref="IGatewayDispatcher.CurrentUser"/>
+    ICurrentUser CurrentUser => Dispatcher.CurrentUser;
 
-        ICurrentUser CurrentUser => Dispatcher.CurrentUser;
+    /// <inheritdoc cref="IGatewayDispatcher.CurrentApplicationId"/>
+    Snowflake CurrentApplicationId => Dispatcher.CurrentApplicationId;
 
-        /// <summary>
-        ///     Runs this <see cref="IGatewayClient"/>.
-        /// </summary>
-        /// <param name="uri"> The Discord gateway URI to connect to. </param>
-        /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
-        /// <returns> The <see cref="Task"/> representing the connection. </returns>
-        Task RunAsync(Uri uri, CancellationToken stoppingToken);
-    }
+    /// <inheritdoc cref="IGatewayDispatcher.CurrentApplicationFlags"/>
+    ApplicationFlags CurrentApplicationFlags => Dispatcher.CurrentApplicationFlags;
+
+    /// <summary>
+    ///     Runs this <see cref="IGatewayClient"/>.
+    /// </summary>
+    /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
+    /// <param name="initialUri"> The Discord gateway URI to connect to. </param>
+    /// <returns> The <see cref="Task"/> representing the connection. </returns>
+    Task RunAsync(Uri? initialUri, CancellationToken stoppingToken);
 }

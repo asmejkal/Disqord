@@ -1,57 +1,65 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Api;
-using Qommon.Events;
-using Disqord.Gateway.Api.Models;
 using Disqord.Serialization.Json;
+using Qommon.Events;
 
-namespace Disqord.Gateway.Api
+namespace Disqord.Gateway.Api;
+
+/// <summary>
+///     Represents a low-level client for the Discord gateway API.
+/// </summary>
+/// <remarks>
+///     <inheritdoc/>
+/// </remarks>
+public interface IGatewayApiClient : IApiClient
 {
-    public interface IGatewayApiClient : IApiClient
-    {
-        IJsonSerializer Serializer { get; }
+    /// <summary>
+    ///     Gets the serializer of this client.
+    /// </summary>
+    IJsonSerializer Serializer { get; }
 
-        IGateway Gateway { get; }
+    /// <summary>
+    ///     Gets the shard coordinator of this client.
+    /// </summary>
+    IShardCoordinator ShardCoordinator { get; }
 
-        IGatewayRateLimiter RateLimiter { get; }
+    /// <summary>
+    ///     Gets the shard factory of this client.
+    /// </summary>
+    IShardFactory ShardFactory { get; }
 
-        IGatewayHeartbeater Heartbeater { get; }
+    /// <summary>
+    ///     Gets the shards managed by this <see cref="IGatewayApiClient"/>.
+    /// </summary>
+    /// <remarks>
+    ///     This is only populated after the client is running,
+    ///     i.e. after the shard set is retrieved from the shard coordinator.
+    ///     <br/>
+    ///     In a multi-process sharding setup this represents only the shards handled by this client.
+    /// </remarks>
+    IReadOnlyDictionary<ShardId, IShard> Shards { get; }
 
-        GatewayIntents Intents { get; }
+    /// <summary>
+    ///     Gets the stopping token passed to <see cref="RunAsync(Uri, CancellationToken)"/>.
+    /// </summary>
+    CancellationToken StoppingToken { get; }
 
-        ShardId Id { get; }
+    /// <summary>
+    ///     Gets the event that fires when a gateway dispatch is received.
+    /// </summary>
+    AsynchronousEvent<GatewayDispatchReceivedEventArgs> DispatchReceivedEvent { get; }
 
-        UpdatePresenceJsonModel Presence { get; set; }
-
-        /// <summary>
-        ///     Gets the session ID of the current gateway session.
-        /// </summary>
-        string SessionId { get; }
-
-        /// <summary>
-        ///     Gets the last sequence number (<see cref="GatewayPayloadJsonModel.S"/>) received from the gateway.
-        /// </summary>
-        int? Sequence { get; }
-
-        /// <summary>
-        ///     Gets the stopping token passed to <see cref="RunAsync(Uri, CancellationToken)"/>.
-        /// </summary>
-        CancellationToken StoppingToken { get; }
-
-        /// <summary>
-        ///     Fires when a gateway dispatch is received.
-        /// </summary>
-        event AsynchronousEventHandler<GatewayDispatchReceivedEventArgs> DispatchReceived;
-
-        Task SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        ///     Runs this <see cref="IGatewayApiClient"/>.
-        /// </summary>
-        /// <param name="uri"> The Discord gateway URI to connect to. </param>
-        /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
-        /// <returns> The <see cref="Task"/> representing the connection. </returns>
-        Task RunAsync(Uri uri, CancellationToken stoppingToken);
-    }
+    /// <summary>
+    ///     Runs this API client which creates and runs the shards
+    ///     returned from the coordinator.
+    /// </summary>
+    /// <param name="initialUri"> The initial URI of the Discord gateway to connect the shards to. </param>
+    /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
+    /// <returns>
+    ///     The <see cref="Task"/> representing the run.
+    /// </returns>
+    Task RunAsync(Uri? initialUri, CancellationToken stoppingToken);
 }

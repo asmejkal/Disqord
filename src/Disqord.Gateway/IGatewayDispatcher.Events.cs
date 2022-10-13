@@ -1,113 +1,122 @@
 ﻿using Qommon.Events;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+public partial interface IGatewayDispatcher
 {
-    public partial interface IGatewayDispatcher
-    {
-        AsynchronousEvent<ReadyEventArgs> ReadyEvent { get; }
+    AsynchronousEvent<ReadyEventArgs> ReadyEvent { get; }
 
-        AsynchronousEvent<ChannelCreatedEventArgs> ChannelCreatedEvent { get; }
+    AsynchronousEvent<ApplicationCommandPermissionsUpdatedEventArgs> ApplicationCommandPermissionsUpdatedEvent { get; }
 
-        AsynchronousEvent<ChannelUpdatedEventArgs> ChannelUpdatedEvent { get; }
+    AsynchronousEvent<AutoModerationRuleCreatedEventArgs> AutoModerationRuleCreatedEvent { get; }
 
-        AsynchronousEvent<ChannelDeletedEventArgs> ChannelDeletedEvent { get; }
+    AsynchronousEvent<AutoModerationRuleUpdatedEventArgs> AutoModerationRuleUpdatedEvent { get; }
 
-        AsynchronousEvent<ThreadCreatedEventArgs> ThreadCreatedEvent { get; }
+    AsynchronousEvent<AutoModerationRuleDeletedEventArgs> AutoModerationRuleDeletedEvent { get; }
 
-        AsynchronousEvent<ThreadUpdatedEventArgs> ThreadUpdatedEvent { get; }
+    AsynchronousEvent<AutoModerationActionExecutedEventArgs> AutoModerationActionExecutedEvent { get; }
 
-        AsynchronousEvent<ThreadDeletedEventArgs> ThreadDeletedEvent { get; }
+    AsynchronousEvent<ChannelCreatedEventArgs> ChannelCreatedEvent { get; }
 
-        AsynchronousEvent<ThreadsSynchronizedEventArgs> ThreadsSynchronizedEvent { get; }
+    AsynchronousEvent<ChannelUpdatedEventArgs> ChannelUpdatedEvent { get; }
 
-        AsynchronousEvent<ThreadMembersUpdatedEventArgs> ThreadMembersUpdatedEvent { get; }
+    AsynchronousEvent<ChannelDeletedEventArgs> ChannelDeletedEvent { get; }
 
-        AsynchronousEvent<ChannelPinsUpdatedEventArgs> ChannelPinsUpdatedEvent { get; }
+    AsynchronousEvent<ThreadCreatedEventArgs> ThreadCreatedEvent { get; }
 
-        AsynchronousEvent<GuildAvailableEventArgs> GuildAvailableEvent { get; }
+    AsynchronousEvent<ThreadUpdatedEventArgs> ThreadUpdatedEvent { get; }
 
-        AsynchronousEvent<JoinedGuildEventArgs> JoinedGuildEvent { get; }
+    AsynchronousEvent<ThreadDeletedEventArgs> ThreadDeletedEvent { get; }
 
-        AsynchronousEvent<GuildUnavailableEventArgs> GuildUnavailableEvent { get; }
+    AsynchronousEvent<ThreadsSynchronizedEventArgs> ThreadsSynchronizedEvent { get; }
 
-        AsynchronousEvent<GuildUpdatedEventArgs> GuildUpdatedEvent { get; }
+    AsynchronousEvent<ThreadMembersUpdatedEventArgs> ThreadMembersUpdatedEvent { get; }
 
-        AsynchronousEvent<LeftGuildEventArgs> LeftGuildEvent { get; }
+    AsynchronousEvent<ChannelPinsUpdatedEventArgs> ChannelPinsUpdatedEvent { get; }
 
-        AsynchronousEvent<BanCreatedEventArgs> BanCreatedEvent { get; }
+    AsynchronousEvent<GuildAvailableEventArgs> GuildAvailableEvent { get; }
 
-        AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; }
+    AsynchronousEvent<JoinedGuildEventArgs> JoinedGuildEvent { get; }
 
-        AsynchronousEvent<EmojisUpdatedEventArgs> EmojisUpdatedEvent { get; }
+    AsynchronousEvent<GuildUnavailableEventArgs> GuildUnavailableEvent { get; }
 
-        AsynchronousEvent<StickersUpdatedEventArgs> StickersUpdatedEvent { get; }
+    AsynchronousEvent<GuildUpdatedEventArgs> GuildUpdatedEvent { get; }
 
-        AsynchronousEvent<IntegrationsUpdatedEventArgs> IntegrationsUpdatedEvent { get; }
+    AsynchronousEvent<LeftGuildEventArgs> LeftGuildEvent { get; }
 
-        AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; }
+    AsynchronousEvent<BanCreatedEventArgs> BanCreatedEvent { get; }
 
-        AsynchronousEvent<MemberUpdatedEventArgs> MemberUpdatedEvent { get; }
+    AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; }
 
-        AsynchronousEvent<MemberLeftEventArgs> MemberLeftEvent { get; }
+    AsynchronousEvent<EmojisUpdatedEventArgs> EmojisUpdatedEvent { get; }
 
-        AsynchronousEvent<RoleCreatedEventArgs> RoleCreatedEvent { get; }
+    AsynchronousEvent<StickersUpdatedEventArgs> StickersUpdatedEvent { get; }
 
-        AsynchronousEvent<RoleUpdatedEventArgs> RoleUpdatedEvent { get; }
+    AsynchronousEvent<IntegrationsUpdatedEventArgs> IntegrationsUpdatedEvent { get; }
 
-        AsynchronousEvent<RoleDeletedEventArgs> RoleDeletedEvent { get; }
+    AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; }
 
-        AsynchronousEvent<GuildEventCreatedEventArgs> GuildEventCreatedEvent { get; }
+    AsynchronousEvent<MemberUpdatedEventArgs> MemberUpdatedEvent { get; }
 
-        AsynchronousEvent<GuildEventUpdatedEventArgs> GuildEventUpdatedEvent { get; }
+    AsynchronousEvent<MemberLeftEventArgs> MemberLeftEvent { get; }
 
-        AsynchronousEvent<GuildEventDeletedEventArgs> GuildEventDeletedEvent { get; }
+    AsynchronousEvent<RoleCreatedEventArgs> RoleCreatedEvent { get; }
 
-        AsynchronousEvent<GuildEventMemberAddedEventArgs> GuildEventMemberAddedEvent { get; }
+    AsynchronousEvent<RoleUpdatedEventArgs> RoleUpdatedEvent { get; }
 
-        AsynchronousEvent<GuildEventMemberRemovedEventArgs> GuildEventMemberRemovedEvent { get; }
+    AsynchronousEvent<RoleDeletedEventArgs> RoleDeletedEvent { get; }
 
-        AsynchronousEvent<IntegrationCreatedEventArgs> IntegrationCreatedEvent { get; }
+    AsynchronousEvent<GuildEventCreatedEventArgs> GuildEventCreatedEvent { get; }
 
-        AsynchronousEvent<IntegrationUpdatedEventArgs> IntegrationUpdatedEvent { get; }
+    AsynchronousEvent<GuildEventUpdatedEventArgs> GuildEventUpdatedEvent { get; }
 
-        AsynchronousEvent<IntegrationDeletedEventArgs> IntegrationDeletedEvent { get; }
+    AsynchronousEvent<GuildEventDeletedEventArgs> GuildEventDeletedEvent { get; }
 
-        AsynchronousEvent<InteractionReceivedEventArgs> InteractionReceivedEvent { get; }
+    AsynchronousEvent<GuildEventMemberAddedEventArgs> GuildEventMemberAddedEvent { get; }
 
-        AsynchronousEvent<InviteCreatedEventArgs> InviteCreatedEvent { get; }
+    AsynchronousEvent<GuildEventMemberRemovedEventArgs> GuildEventMemberRemovedEvent { get; }
 
-        AsynchronousEvent<InviteDeletedEventArgs> InviteDeletedEvent { get; }
+    AsynchronousEvent<IntegrationCreatedEventArgs> IntegrationCreatedEvent { get; }
 
-        AsynchronousEvent<MessageReceivedEventArgs> MessageReceivedEvent { get; }
+    AsynchronousEvent<IntegrationUpdatedEventArgs> IntegrationUpdatedEvent { get; }
 
-        AsynchronousEvent<MessageUpdatedEventArgs> MessageUpdatedEvent { get; }
+    AsynchronousEvent<IntegrationDeletedEventArgs> IntegrationDeletedEvent { get; }
 
-        AsynchronousEvent<MessageDeletedEventArgs> MessageDeletedEvent { get; }
+    AsynchronousEvent<InteractionReceivedEventArgs> InteractionReceivedEvent { get; }
 
-        AsynchronousEvent<MessagesDeletedEventArgs> MessagesDeletedEvent { get; }
+    AsynchronousEvent<InviteCreatedEventArgs> InviteCreatedEvent { get; }
 
-        AsynchronousEvent<ReactionAddedEventArgs> ReactionAddedEvent { get; }
+    AsynchronousEvent<InviteDeletedEventArgs> InviteDeletedEvent { get; }
 
-        AsynchronousEvent<ReactionRemovedEventArgs> ReactionRemovedEvent { get; }
+    AsynchronousEvent<MessageReceivedEventArgs> MessageReceivedEvent { get; }
 
-        AsynchronousEvent<ReactionsClearedEventArgs> ReactionsClearedEvent { get; }
+    AsynchronousEvent<MessageUpdatedEventArgs> MessageUpdatedEvent { get; }
 
-        AsynchronousEvent<PresenceUpdatedEventArgs> PresenceUpdatedEvent { get; }
+    AsynchronousEvent<MessageDeletedEventArgs> MessageDeletedEvent { get; }
 
-        AsynchronousEvent<StageCreatedEventArgs> StageCreatedEvent { get; }
+    AsynchronousEvent<MessagesDeletedEventArgs> MessagesDeletedEvent { get; }
 
-        AsynchronousEvent<StageUpdatedEventArgs> StageUpdatedEvent { get; }
+    AsynchronousEvent<ReactionAddedEventArgs> ReactionAddedEvent { get; }
 
-        AsynchronousEvent<StageDeletedEventArgs> StageDeletedEvent { get; }
+    AsynchronousEvent<ReactionRemovedEventArgs> ReactionRemovedEvent { get; }
 
-        AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; }
+    AsynchronousEvent<ReactionsClearedEventArgs> ReactionsClearedEvent { get; }
 
-        AsynchronousEvent<CurrentUserUpdatedEventArgs> CurrentUserUpdatedEvent { get; }
+    AsynchronousEvent<PresenceUpdatedEventArgs> PresenceUpdatedEvent { get; }
 
-        AsynchronousEvent<VoiceStateUpdatedEventArgs> VoiceStateUpdatedEvent { get; }
+    AsynchronousEvent<StageCreatedEventArgs> StageCreatedEvent { get; }
 
-        AsynchronousEvent<VoiceServerUpdatedEventArgs> VoiceServerUpdatedEvent { get; }
+    AsynchronousEvent<StageUpdatedEventArgs> StageUpdatedEvent { get; }
 
-        AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; }
-    }
+    AsynchronousEvent<StageDeletedEventArgs> StageDeletedEvent { get; }
+
+    AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; }
+
+    AsynchronousEvent<CurrentUserUpdatedEventArgs> CurrentUserUpdatedEvent { get; }
+
+    AsynchronousEvent<VoiceStateUpdatedEventArgs> VoiceStateUpdatedEvent { get; }
+
+    AsynchronousEvent<VoiceServerUpdatedEventArgs> VoiceServerUpdatedEvent { get; }
+
+    AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; }
 }
